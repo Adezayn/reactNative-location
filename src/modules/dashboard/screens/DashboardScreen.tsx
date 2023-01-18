@@ -49,16 +49,21 @@ export default function DashboardScreen({navigation}: any) {
             const a = { lat: fixedLatitude, lng: fixedLongititude }
             const b = { lat: dynamicLatitude, lon: dynamicLongititude }
  
-           setUserLocation(haversine(a, b));
+           setUserLocation(Math.trunc(haversine(a, b)));
             console.log(userLocation, typeof userLocation);
-          })();
-         
-          if(userLocation <= 5000 ){
-            setResultsMessage( `Your order has been placed since you are ${userLocation.toString()} meters away.`)
-          }else {
-            setResultsMessage(`Your order was not placed since you are ${userLocation.toString()} meters away.`)
-          }
-        
+          })();  
+          renderInfoBasedDistance();
+    };
+
+    const renderInfoBasedDistance = () => {
+       
+         if(userLocation <= 5000 ){
+            setResultsMessage( `Your order has been placed since you are ${userLocation} meters away.`)
+          }else if(userLocation > 5000){
+            setResultsMessage(`Your order was not placed since you are ${userLocation} meters away.`)
+          }else{
+            setResultsMessage('')
+          } 
     }
 
 
@@ -80,12 +85,16 @@ export default function DashboardScreen({navigation}: any) {
                
             </View>
             {errorInfo && (<Text style={{...styles.textStyle, color: 'red'}}>{errorInfo}</Text>)}
-
-          {(userLocation !== 0) && (
+{/* 
+          {resultsMessage != '' && (
               <View style={styles.centerContent}>
               <Text>{resultsMessage}</Text>
               </View>
-          )}
+          )} */}
+
+             <View style={styles.centerContent}>
+              <Text>{resultsMessage}</Text>
+              </View>
 
              <TouchableOpacity style={styles.button} onPress={() => signOut()}>
                     <Button

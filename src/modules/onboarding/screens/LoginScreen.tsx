@@ -23,6 +23,7 @@ export default function LoginScreen({navigation}: any) {
             setIsLoading(false);
             setEmail('');
             setPassword('');
+            setErrorInfo('');
             navigation.navigate('DashboardFlow', {screen: 'DashboardScreen'});
         }).catch(
             (error) => {
